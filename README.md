@@ -15,6 +15,11 @@ curl -X POST "https://api.telegram.org/bot<ТОКЕН>/setWebhook" -d "url=https
 ```
 curl -X POST "https://api.telegram.org/bot<ТОКЕН>/getWebhookInfo"
 ```
+Обязательно создать каталог
+```
+mkdir -p ~/.config/systemd/user
+```
+Разместить там файл is.dervice (есть в каталоге)
 
 Перезапустите пользовательский systemd и включите службу:
 ```
