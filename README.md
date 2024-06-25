@@ -19,4 +19,6 @@ systemctl --user start is.service
 ```
 
 Проверьте статус службы:
-`systemctl --user status is.service`
+```
+systemctl --user status is.service
+```
