@@ -32,3 +32,8 @@ systemctl --user start is.service
 ```
 systemctl --user status is.service
 ```
+
+Перезапустить службу:
+```
+systemctl --user restart is.service
+```
