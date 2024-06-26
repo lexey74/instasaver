@@ -23,16 +23,19 @@ load_dotenv()
 
 # Replace with your own values loaded from .env
 TELEGRAM_BOT_TOKEN = os.getenv("INSTA_TELEGRAM_BOT_TOKEN")
-ALLOWED_USER_ID = int(os.getenv("ALLOWED_USER_ID_BOT"))
 WEBHOOK_URL = os.getenv("WEBHOOK_URL_BOT")
 INSTAGRAM_USERNAME = os.getenv("INSTAGRAM_USERNAME")
 INSTAGRAM_PASSWORD = os.getenv("INSTAGRAM_PASSWORD")
+ALLOWED_USER_IDS = os.getenv("ALLOWED_USER_IDS").split(",")
+
+# Convert user IDs to integers
+ALLOWED_USER_IDS = [int(user_id.strip()) for user_id in ALLOWED_USER_IDS]
 
 async def start(update, context):
     logger.info("Received /start command")
     user_id = update.effective_user.id
     logger.info(f"User ID: {user_id}")
-    if user_id != ALLOWED_USER_ID:
+    if user_id not in ALLOWED_USER_IDS:
         await update.message.reply_text("Sorry, you are not authorized to use this bot.")
         return
     await update.message.reply_text("Welcome! Send me an Instagram post URL to download its video and text.")
@@ -47,7 +50,7 @@ async def download_instagram(update, context):
     logger.info("Received Instagram URL or message")
     user_id = update.effective_user.id
     logger.info(f"User ID: {user_id}")
-    if user_id != ALLOWED_USER_ID:
+    if user_id not in ALLOWED_USER_IDS:
         await update.message.reply_text("Sorry, you are not authorized to use this bot.")
         return
 
@@ -98,7 +101,7 @@ async def download_instagram(update, context):
             await update.message.reply_text(f"An error occurred: Media files not found.")
             return
 
-        # Send video files
+        # Send video and image files
         for media_file in media_files:
             if media_file.endswith(".mp4"):
                 with open(media_file, "rb") as vf:
